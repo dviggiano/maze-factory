@@ -22,6 +22,6 @@ npm start
 * Clean up codebase; utilize type-checking, use uniform styling, complete documentation
 * Add filters on user-generated content
 * Improve error messages on authentication screen
-* Add app icons and other necessary files ahead of deployment
+* Add app icons and other necessary files for deployment
 * Allow users to share their record times or published mazes via text message and social media
 * Add accessibility features including dictation and haptic feedback
