@@ -1,9 +1,9 @@
-import {PanResponder, Pressable, StyleSheet, View} from 'react-native';
+import { PanResponder, Pressable, StyleSheet, View } from 'react-native';
+import { Component, useRef, useState } from 'react';
+import { LinearGradient } from 'react-native-linear-gradient'
+import { FontAwesome } from '@expo/vector-icons';
 import Space from '../maze/Space';
 import Maze from '../maze/Maze';
-import {Component, useRef, useState} from 'react';
-import {LinearGradient} from 'react-native-linear-gradient'
-import { FontAwesome } from '@expo/vector-icons';
 
 export default function CanvasSpace(props: { space: Space, maze: Maze, size: number }) {
     const componentRef = useRef(null);
@@ -85,9 +85,8 @@ export default function CanvasSpace(props: { space: Space, maze: Maze, size: num
             style.push({ borderBottomWidth: 2, });
         }
     }
+    
+    const entranceOrExit = props.maze.entrance, props.maze.exit].includes(props.space);
 
-    return <View style={StyleSheet.flatten(style)}>{
-        [props.maze.entrance, props.maze.exit].includes(props.space) &&
-        <FontAwesome name="star" size={20} color="#000" />
-    }</View>;
+    return <View style={StyleSheet.flatten(style)}>{ entranceOrExit && <FontAwesome name="star" size={20} color="#000" /> }</View>;
 };
