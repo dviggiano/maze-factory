@@ -23,5 +23,5 @@ npm start
 * Add filters on user-generated content
 * Improve error messages on authentication screen
 * Add app icons and other necessary files for deployment
-* Allow users to share their record times or published mazes via text message and social media
+* Allow users to share their record times or published mazes via social media
 * Add accessibility features including dictation and haptic feedback
