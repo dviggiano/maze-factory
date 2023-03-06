@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import {
     View,
     StatusBar,
@@ -7,12 +9,11 @@ import {
     ActivityIndicator,
     TouchableOpacity
 } from 'react-native';
-import { auth, db } from '../firebase';
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
-import { FontAwesome } from "@expo/vector-icons";
-import * as React from "react";
 import { signOut } from 'firebase/auth';
+import { auth, db } from '../firebase';
 import BuildScreen from './BuildScreen';
 import MenuScreen from './MenuScreen';
 
