@@ -19,7 +19,7 @@ npm start
 * Redesign maze builder to handle more functionality, like drawing
 * Improve maze trace with fluid graphics
 * Move Firebase operations to hidden backend or serverless proxy
-* Clean up codebase; extract components, use uniform styling, complete documentation
+* Clean up codebase; utilize type-checking, use uniform styling, complete documentation
 * Add filters on user-generated content
 * Improve error messages on authentication screen
 * Add app icons and other necessary files ahead of deployment
