@@ -30,11 +30,6 @@ export default function App() {
                   component={ PlayScreen }
                   options={{ headerShown: false }}
               />
-              <Stack.Screen
-                  name='Build'
-                  component={ BuildScreen }
-                  options={{ headerShown: false }}
-              />
             </Stack.Navigator>
           </NavigationContainer>
       );
