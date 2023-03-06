@@ -52,7 +52,7 @@ export default function HomeScreen({navigation}) {
         setMazes(processedMazes);
     }
 
-    useEffect(fetchMazes, []);
+    useEffect(() => { fetchMazes() }, []);
 
     const getUserEmail = async (uid: string) => {
         const docRef = doc(db, 'users', uid);
