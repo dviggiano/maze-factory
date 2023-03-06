@@ -1,6 +1,6 @@
 # Maze Factory
 
-Cross-platform application targetting mobile users written in React Native. Allows users to generate random mazes and share them for others to play and compete for record times. Solo entry for MadHacks 2023 - thank you MadHacks!
+Cross-platform application targetting mobile users written in React Native. Allows users to generate random mazes and share them for others to play and compete for record times. Solo entry for MadHacks 2023 - thank you MadHacks! Currently working on implementing features listed below.
 
 Mazes are randomly generated using an original algorithm: the "Leaves Up" tree-building approach. Check it out <a href="/maze/Maze.ts#L221">here</a>.
 
