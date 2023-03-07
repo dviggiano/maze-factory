@@ -15,6 +15,7 @@ npm start
 
 # TODO
 
+* Fix date rendering bug
 * Improve lackluster UI
 * Redesign maze builder to handle more functionality, like drawing
 * Improve maze trace with fluid graphics
