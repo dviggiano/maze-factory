@@ -15,7 +15,8 @@ npm start
 
 # TODO
 
-* Fix date rendering bug
+## Improvements
+
 * Improve lackluster UI
 * Redesign maze builder to handle more functionality, like drawing
 * Improve maze trace with fluid graphics
@@ -26,3 +27,7 @@ npm start
 * Add app icons and other necessary files for deployment
 * Allow users to share their record times or published mazes via social media
 * Add accessibility features including dictation and haptic feedback
+
+## Bug Fixes
+
+* All creation dates rendering as today
