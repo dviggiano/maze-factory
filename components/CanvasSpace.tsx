@@ -86,8 +86,12 @@ export default function CanvasSpace(props: { space: Space, maze: Maze, size: num
         }
     }
 
-    return <View style={StyleSheet.flatten(style)}>{
-        [props.maze.entrance, props.maze.exit].includes(props.space) &&
-        <FontAwesome name="star" size={20} color="#000" />
-    }</View>;
+    return (
+        <View style={StyleSheet.flatten(style)}>
+            {
+                [props.maze.entrance, props.maze.exit].includes(props.space) &&
+                <FontAwesome name="star" size={20} color="#000" />
+            }
+        </View>
+    );
 };
