@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
     View,
     StatusBar,
@@ -7,23 +8,22 @@ import {
     ActivityIndicator,
     TouchableOpacity
 } from 'react-native';
-import { auth, db } from '../firebase';
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
-import { FontAwesome } from "@expo/vector-icons";
-import * as React from "react";
 import { signOut } from 'firebase/auth';
+import { auth, db } from '../firebase';
 import BuildScreen from './BuildScreen';
 import MenuScreen from './MenuScreen';
 
 // @ts-ignore
 export default function HomeScreen({navigation}) {
     const [mazes, setMazes] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState(0);
 
     const fetchMazes = async () => {
-        setLoading(false);
+        setLoading(true);
         const q = query(collection(db, 'mazes'));
         const querySnapshot = await getDocs(q);
         // @ts-ignore
@@ -47,7 +47,7 @@ export default function HomeScreen({navigation}) {
             a.created !== b.created ? b.created - a.created : b.plays - a.plays
         );
 
-        setLoading(true);
+        setLoading(false);
         // @ts-ignore
         setMazes(processedMazes);
     }
@@ -69,14 +69,14 @@ export default function HomeScreen({navigation}) {
                 tab ?
                 <BuildScreen refresh={fetchMazes} /> :
                 loading ?
+                    <View style={{justifyContent: "center", height: Dimensions.get('window').height - 130}}>
+                        <ActivityIndicator size="large" color="#000000" />
+                    </View> :
                     <MenuScreen
                         mazes = {mazes}
                         navigation={navigation}
                         fetchMazes={fetchMazes}
-                    /> :
-                    <View style={{justifyContent: "center", height: Dimensions.get('window').height - 130}}>
-                        <ActivityIndicator size="large" color="#000000" />
-                    </View>
+                    />
             }
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 30,
         height: 100,
-        color: "white",
-        fontWeight: "bold",
+        color: '#fff',
+        fontWeight: 'bold',
         paddingHorizontal: 60,
         flexDirection: 'row',
         alignItems: 'center',
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     shadow: {
-        shadowColor: '#000000',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 4,
