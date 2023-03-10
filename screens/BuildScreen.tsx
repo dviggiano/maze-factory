@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
     Alert,
     Dimensions,
@@ -8,11 +7,11 @@ import {
     View
 } from 'react-native';
 import Maze from '../maze/Maze';
-import { useState } from "react";
-import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import Space from "../maze/Space";
-import CanvasSpace from "../components/CanvasSpace";
+import { useState } from 'react';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import Space from '../maze/Space';
+import CanvasSpace from '../components/CanvasSpace';
 
 export default function BuildScreen(props) {
     const sizes = [5, 6, 7, 8, 9, 10];

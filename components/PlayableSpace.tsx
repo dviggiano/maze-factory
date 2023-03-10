@@ -1,8 +1,8 @@
-import {PanResponder, Pressable, StyleSheet} from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import Space from '../maze/Space';
 import Maze from '../maze/Maze';
-import React, {useRef, useState} from 'react';
-import {FontAwesome} from "@expo/vector-icons";
+import { useRef, useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function PlayableSpace(props: { allSpaces: any[], space: Space, maze: Maze, size: number, modal }) {
     const componentRef = useRef(null);
@@ -103,11 +103,10 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
         }
     }
 
-    // @ts-ignore
     return (
         <Pressable
             ref={componentRef}
-            onLayout={() => {props.allSpaces.push([onPress, componentRef, active])}}
+            onLayout={() => { props.allSpaces.push({ activate: onPress, ref: componentRef, active: active }) }}
             onPress={onPress}
             style={StyleSheet.flatten(style)}
         >

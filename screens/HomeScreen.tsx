@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
     View,
     StatusBar,
@@ -16,7 +15,6 @@ import { auth, db } from '../firebase';
 import BuildScreen from './BuildScreen';
 import MenuScreen from './MenuScreen';
 
-// @ts-ignore
 export default function HomeScreen({navigation}) {
     const [mazes, setMazes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,29 +24,26 @@ export default function HomeScreen({navigation}) {
         setLoading(true);
         const q = query(collection(db, 'mazes'));
         const querySnapshot = await getDocs(q);
-        // @ts-ignore
         const rawMazes = querySnapshot.docs.slice(0, 20);
-        // @ts-ignore
         const processedMazes = [];
 
         for (const rawMaze of rawMazes) {
             const maze = rawMaze.data();
+            const created = maze.created.toDate().split(' ');
+
             maze.id = rawMaze.id;
-            // @ts-ignore
-            const created = Date(maze.created).split(' ');
             maze.created = `${created[1]} ${created[2]}, ${created[3]}`;
             maze.creator = await getUserEmail(maze.creator);
             maze.recordHolder = maze.recordHolder ? await getUserEmail(maze.recordHolder) : null;
+
             processedMazes.push(maze);
         }
 
-        // @ts-ignore
         processedMazes.sort((a, b) =>
             a.created !== b.created ? b.created - a.created : b.plays - a.plays
         );
 
         setLoading(false);
-        // @ts-ignore
         setMazes(processedMazes);
     }
 
@@ -58,11 +53,9 @@ export default function HomeScreen({navigation}) {
         const docRef = doc(db, 'users', uid);
         const userDoc = await getDoc(docRef);
         const userData = userDoc.data();
-        // @ts-ignore
         return userData.email.slice(0, userData.email.indexOf('@'));
     };
 
-    // @ts-ignore
     return (
         <View style={styles.container}>
             {

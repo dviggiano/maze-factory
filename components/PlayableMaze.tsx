@@ -12,15 +12,14 @@ export default function PlayableMaze(props: { maze: Maze, modal }) {
     const size = Math.min(screenWidth, screenHeight) * .8 / props.maze.spaces.length;
     const spaces: any[] = [];
 
-    // @ts-ignore
     const onPanResponderMove = (e, gestureState) => {
         const { moveX, moveY } = gestureState;
-        spaces.forEach((ref) => {
-            if (ref[1].current) {
-                // @ts-ignore
-                ref[1].current.measure((x, y, width, height, pageX, pageY) => {
+        
+        spaces.forEach((space) => {
+            if (!space['active'] && space['ref'].current) {
+                space['ref'].current.measure((x, y, width, height, pageX, pageY) => {
                     if (moveX >= pageX && moveX <= pageX + width && moveY >= pageY && moveY <= pageY + height) {
-                        ref[0]();
+                        space['activate']();
                     }
                 });
             }

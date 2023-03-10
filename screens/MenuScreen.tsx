@@ -2,7 +2,6 @@ import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions } from
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { FontAwesome } from '@expo/vector-icons';
-import * as React from 'react';
 
 export default function MenuScreen(props) {
     return (
@@ -19,7 +18,6 @@ export default function MenuScreen(props) {
                     <View style={styles.icon}>
                         <TouchableOpacity onPress={() => {
                             updateDoc(doc(db, 'mazes', maze.id), { plays: maze.plays + 1 });
-                            // @ts-ignore
                             props.navigation.navigate('Play', { id: maze.id, refresh: props.fetchMazes })
                         }}>
                             <FontAwesome name="play-circle" size={48} color="#333" />

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, Image, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import {collection, doc, getDocs, query, setDoc, where} from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth/react-native';
 
-// @ts-ignore
 const AuthScreen = ({ navigation }) => {
     useEffect(() => {
         return onAuthStateChanged(auth, user => {
@@ -27,7 +26,6 @@ const AuthScreen = ({ navigation }) => {
             navigation.navigate('Home');
         } catch (error) {
             setIsLoading(false);
-            // @ts-ignore
             alert(error.message);
         }
     };
@@ -55,7 +53,6 @@ const AuthScreen = ({ navigation }) => {
             navigation.navigate('Home');
         } catch (error) {
             setIsLoading(false);
-            // @ts-ignore
             alert(error.message);
         }
     };

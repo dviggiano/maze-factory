@@ -1,11 +1,9 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import AuthScreen from './screens/AuthScreen';
 import HomeScreen from './screens/HomeScreen';
 import PlayScreen from './screens/PlayScreen';
-import BuildScreen from './screens/BuildScreen';
-import AuthScreen from './screens/AuthScreen';
-import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 

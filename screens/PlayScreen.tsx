@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Maze from '../maze/Maze';
 import {
@@ -15,12 +14,12 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { FontAwesome } from '@expo/vector-icons';
 
-// @ts-ignore
 export default function PlayScreen({ navigation, route }) {
     const [maze, setMaze] = useState<Maze | null>(null);
     const [name, setName] = useState(null);
     const [record, setRecord] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+
     const congrats = [
         'A-maze-ing!',
         'Fantastic!',
@@ -44,7 +43,6 @@ export default function PlayScreen({ navigation, route }) {
                 setRecord(docData.recordTime);
                 loadedMaze.start = new Date();
             } catch (error) {
-                // @ts-ignore
                 console.log(error);
             }
         };
