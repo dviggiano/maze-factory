@@ -88,7 +88,7 @@ export default function PlayScreen({ navigation, route }) {
 
     return (
         <View style={styles.maze}>
-        {maze ?
+            {maze ?
             <View>
                 <CompletionModal />
                 <View style={styles.header}>
