@@ -1,7 +1,9 @@
 import { collection, doc, setDoc } from 'firebase/firestore';
+
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const serviceAccount = require('credentials.json');
+
 const db = admin.database();
 
 class Space {
