@@ -102,7 +102,7 @@ export default class Maze {
 
         function includeEdge(from: Space, to: Space): boolean {
             return !visited.has(to) && from.connected.includes(to);
-        };
+        }
 
         for (let x = 0; x < this.spaces.length; x++) {
             const column = [];
