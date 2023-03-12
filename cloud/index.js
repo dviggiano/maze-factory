@@ -15,7 +15,7 @@ class Space {
         this.y = y;
         this.active = false;
         this.connected = [];
-    };
+    }
 
     addEdge(space) {
         if (this.connected.includes(space)) {
@@ -25,7 +25,7 @@ class Space {
             space.connected.push(this);
             return true;
         }
-    };
+    }
 }
 
 class Maze {
@@ -57,7 +57,7 @@ class Maze {
         if (random) {
             this.randomize();
         }
-    };
+    }
 
     adjacentTo(space) {
         const adjacent = [];
@@ -87,7 +87,7 @@ class Maze {
         }
 
         return adjacent;
-    };
+    }
 
     load(template) {
         for (let x = 0; x < this.spaces.length; x++) {
@@ -115,7 +115,7 @@ class Maze {
         }
 
         return this;
-    };
+    }
 
     getTemplate() {
         const template = {};
@@ -123,7 +123,7 @@ class Maze {
 
         function includeEdge(from, to) {
             return !visited.has(to) && from.connected.includes(to);
-        };
+        }
 
         for (let x = 0; x < this.spaces.length; x++) {
             const column = [];
@@ -158,7 +158,7 @@ class Maze {
         }
 
         return template;
-    };
+    }
 
     randomize() {
         // shuffle spaces using the Fisher-Yates algorithm on all spaces other than the entrance and exit
@@ -183,7 +183,7 @@ class Maze {
 
         // call recursive helper method to build maze, starting by attempting to connect the entrance to the exit
         this.leavesUp(spaces, new Set([...spaces]), new Set([this.exit]));
-    };
+    }
 
     leavesUp(unvisitedStack, unvisited, path) {
         let space;
@@ -211,7 +211,7 @@ class Maze {
         if (unvisited.size !== 0) {
             this.leavesUp(unvisitedStack, unvisited, path);
         }
-    };
+    }
 
     leavesUpHelper(orderedBranch, branch, path, calls) {
         const space = orderedBranch[orderedBranch.length - calls]; // backtrack if calls > 1
@@ -228,7 +228,7 @@ class Maze {
         const neighbor = adjacent[Math.floor(Math.random() * adjacent.length)];
         space.addEdge(neighbor);
         return neighbor;
-    };
+    }
 }
 
 admin.initializeApp({
