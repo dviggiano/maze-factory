@@ -151,7 +151,6 @@ class Maze {
                 visited.add(this.spaces[x][y]);
             }
 
-            // @ts-ignore
             template[x] = column;
         }
 
