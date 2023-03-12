@@ -18,11 +18,10 @@ export default function BuildScreen(props) {
     const [maze, setMaze] = useState(new Maze(7, true));
 
     function Canvas() {
-        console.log(`Drawing maze of size ${maze.spaces.length}...`);
-
         const screenWidth = Dimensions.get('window').width;
         const screenHeight = Dimensions.get('window').height;
         const spaceSize = Math.min(screenWidth, screenHeight) * .8 / maze.spaces.length;
+
         let key = 0;
 
         return (
