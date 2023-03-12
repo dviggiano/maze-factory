@@ -94,22 +94,18 @@ class Maze {
     load(template) {
         for (let x = 0; x < this.spaces.length; x++) {
             for (let y = 0; y < this.spaces.length; y++) {
-                // @ts-ignore
                 if (template[x][y].left) {
                     this.spaces[x][y].addEdge(this.spaces[x - 1][y]);
                 }
 
-                // @ts-ignore
                 if (template[x][y].right) {
                     this.spaces[x][y].addEdge(this.spaces[x + 1][y]);
                 }
 
-                // @ts-ignore
                 if (template[x][y].down) {
                     this.spaces[x][y].addEdge(this.spaces[x][y - 1]);
                 }
 
-                // @ts-ignore
                 if (template[x][y].up) {
                     this.spaces[x][y].addEdge(this.spaces[x][y + 1]);
                 }
