@@ -37,7 +37,7 @@ class Maze {
     start;
     end;
 
-    constructor(size, random=true) {
+    constructor(size) {
         this.spaces = [];
 
         // create a [size] x [size] grid of spaces
@@ -56,9 +56,7 @@ class Maze {
         this.start = null;
         this.end = null;
 
-        if (random) {
-            this.randomize();
-        }
+        this.randomize();
     }
 
     adjacentTo(space) {
@@ -245,7 +243,7 @@ exports.updateDocumentDaily = functions.pubsub.schedule('every 24 hours').onRun(
 
     if (yesterdayMazes.length === 0) {
         const sizes = [5, 6, 7, 8, 9, 10];
-        const maze = new Maze(sizes[Math.floor(Math.random() * sizes.length)], true);
+        const maze = new Maze(sizes[Math.floor(Math.random() * sizes.length)]);
 
         await setDoc(doc(collection(db, 'mazes', 'TodaysMaze')), {
             name: "Today's Maze",
