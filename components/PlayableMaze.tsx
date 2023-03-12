@@ -54,7 +54,7 @@ export default function PlayableMaze(props: { maze: Maze, modal }) {
             ))}
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     maze: {
