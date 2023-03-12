@@ -45,7 +45,7 @@ export default function BuildScreen(props) {
         );
     }
 
-    const handlePress = async (name) => {
+    async function handlePress(name) {
         try {
             if (!maze.isValid()) {
                 throw new Error();
@@ -64,7 +64,7 @@ export default function BuildScreen(props) {
         } catch (error) {
             Alert.alert('Could not post your maze...sorry about that.');
         }
-    };
+    }
 
     return (
         <View style={{ height: Dimensions.get('window').height - 130, justifyContent: 'center' }}>
@@ -93,8 +93,8 @@ export default function BuildScreen(props) {
                             },
                             'plain-text',
                             'My Maze',
-                        );}
-                    }
+                        );
+                    }}
                 >
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
