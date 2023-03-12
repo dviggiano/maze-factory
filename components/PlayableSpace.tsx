@@ -27,7 +27,7 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     function isInBounds(index: number): boolean {
         return index > -1 && index < props.maze.spaces.length;
-    };
+    }
 
     const borderColor = 'black';
 
@@ -117,4 +117,4 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
             }
         </Pressable>
     );
-};
+}
