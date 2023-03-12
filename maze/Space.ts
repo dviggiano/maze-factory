@@ -9,7 +9,7 @@ export default class Space {
         this.y = y;
         this.active = false;
         this.connected = [];
-    };
+    }
 
     addEdge(space: Space): boolean {
         if (this.connected.includes(space)) {
@@ -19,7 +19,7 @@ export default class Space {
             space.connected.push(this);
             return true;
         }
-    };
+    }
 
     removeEdge(space: Space): boolean {
         if (!this.connected.includes(space)) {
@@ -29,7 +29,7 @@ export default class Space {
             space.connected = space.connected.filter(neighbor => neighbor !== this);
             return true;
         }
-    };
+    }
 
     pathExists(destination: Space): boolean {
         const toVisit = [...this.connected];
@@ -50,7 +50,7 @@ export default class Space {
         }
 
         return false;
-    };
+    }
 
     cycleExists(visited: Set<Space>, parent: Space | null) {
         visited.add(this);
@@ -66,5 +66,5 @@ export default class Space {
         }
 
         return false;
-    };
-};
+    }
+}
