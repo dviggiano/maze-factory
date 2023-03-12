@@ -50,6 +50,7 @@ export default function BuildScreen(props) {
             if (!maze.isValid()) {
                 throw new Error();
             }
+
             await setDoc(doc(collection(db, 'mazes')), {
                 name: name,
                 recordTime: Infinity,
@@ -59,7 +60,9 @@ export default function BuildScreen(props) {
                 created: Date.now(),
                 template: maze.getTemplate()
             });
+
             Alert.alert('Upload successful!');
+
             await props.refresh();
         } catch (error) {
             Alert.alert('Could not post your maze...sorry about that.');
