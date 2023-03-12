@@ -107,7 +107,7 @@ export default function PlayScreen({ navigation, route }) {
             <ActivityIndicator size="large" color="#000000" />}
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     maze: {
