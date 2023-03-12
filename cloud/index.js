@@ -225,9 +225,7 @@ class Maze {
 }
 
 exports.updateDocumentDaily = functions.pubsub.schedule('every 24 hours').onRun(async (context) => {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
-    });
+    admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
     
     const db = admin.database();
     const q = query(collection(db, 'mazes'));
