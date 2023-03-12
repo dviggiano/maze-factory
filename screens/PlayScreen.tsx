@@ -30,26 +30,6 @@ export default function PlayScreen({ navigation, route }) {
         'Maze-sanity!'
     ];
 
-    useEffect(() => {
-        async function buildMaze() {
-            try {
-                const docRef = doc(db, 'mazes', route.params.id);
-                const docSnap = await getDoc(docRef);
-                const docData = docSnap.data()!;
-                const loadedMaze = new Maze(Object.keys(docData.template).length);
-                await loadedMaze.build(route.params.id);
-                setMaze(loadedMaze);
-                setName(docData.name);
-                setRecord(docData.recordTime);
-                loadedMaze.start = new Date();
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        buildMaze();
-    }, []);
-
     function CompletionModal() {
         return (
             <Modal
@@ -87,6 +67,24 @@ export default function PlayScreen({ navigation, route }) {
             </Modal>
         );
     }
+
+    async function buildMaze() {
+        try {
+            const docRef = doc(db, 'mazes', route.params.id);
+            const docSnap = await getDoc(docRef);
+            const docData = docSnap.data()!;
+            const loadedMaze = new Maze(Object.keys(docData.template).length);
+            await loadedMaze.build(route.params.id);
+            setMaze(loadedMaze);
+            setName(docData.name);
+            setRecord(docData.recordTime);
+            loadedMaze.start = new Date();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => { buildMaze() }, []);
 
     return (
         <View style={styles.maze}>
