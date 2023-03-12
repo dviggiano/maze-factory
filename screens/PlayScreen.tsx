@@ -99,7 +99,7 @@ export default function PlayScreen({ navigation, route }) {
                 <PlayableMaze maze={maze} modal={setModalVisible} />
                 <TouchableOpacity
                     onPress={() => { navigation.navigate('Home') }}
-                    style={{marginTop: 50, padding: 10, alignItems: "center"}}
+                    style={{ marginTop: 50, padding: 10, alignItems: 'center' }}
                 >
                     <FontAwesome name="home" size={48} color="#000" />
                 </TouchableOpacity>
