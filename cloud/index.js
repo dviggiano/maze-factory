@@ -4,8 +4,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const serviceAccount = require('credentials.json');
 
-const db = admin.database();
-
 class Space {
     x; // x coordinate
     y; // y coordinate
@@ -226,11 +224,12 @@ class Maze {
     }
 }
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
 exports.updateDocumentDaily = functions.pubsub.schedule('every 24 hours').onRun(async (context) => {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+    
+    const db = admin.database();
     const q = query(collection(db, 'mazes'));
     const querySnapshot = await getDocs(q);
     const yesterday = new Date();
