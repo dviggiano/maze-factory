@@ -20,7 +20,7 @@ export default function HomeScreen({navigation}) {
     const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState(0);
 
-    const fetchMazes = async () => {
+    async function fetchMazes() {
         setLoading(true);
         const q = query(collection(db, 'mazes'));
         const querySnapshot = await getDocs(q);
