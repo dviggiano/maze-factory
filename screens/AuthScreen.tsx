@@ -5,7 +5,7 @@ import {collection, doc, getDocs, query, setDoc, where} from 'firebase/firestore
 import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth/react-native';
 
-const AuthScreen = ({ navigation }) => {
+export default function AuthScreen({ navigation }) {
     useEffect(() => {
         return onAuthStateChanged(auth, user => {
             if (user) {
@@ -88,7 +88,7 @@ const AuthScreen = ({ navigation }) => {
             </TouchableOpacity>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     maze: {
@@ -137,5 +137,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-
-export default AuthScreen;
