@@ -68,15 +68,7 @@ export default function BuildScreen(props) {
 
     return (
         <View style={{ height: Dimensions.get('window').height - 130, justifyContent: 'center' }}>
-            <View style={styles.maze}>
-                <TouchableOpacity
-                    onPress={() => {
-                        setMaze(new Maze(sizes[Math.floor(Math.random() * sizes.length)], true));
-                    }}
-                >
-                    <Canvas />
-                </TouchableOpacity>
-            </View>
+            <Canvas />
             <View style={{flexDirection: 'row', marginTop: 5}}>
                 <TouchableOpacity
                     style={[styles.button, styles.shadow]}
