@@ -47,14 +47,14 @@ export default function HomeScreen({navigation}) {
         setMazes(processedMazes);
     }
 
-    useEffect(() => { fetchMazes() }, []);
-
     async function getUserEmail(uid: string) {
         const docRef = doc(db, 'users', uid);
         const userDoc = await getDoc(docRef);
         const userData = userDoc.data();
         return userData.email.slice(0, userData.email.indexOf('@'));
-    };
+    }
+
+    useEffect(() => { fetchMazes() }, []);
 
     return (
         <View style={styles.container}>
