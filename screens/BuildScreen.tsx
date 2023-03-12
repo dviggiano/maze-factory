@@ -14,8 +14,8 @@ import Space from '../maze/Space';
 import CanvasSpace from '../components/CanvasSpace';
 
 export default function BuildScreen(props) {
-    const sizes = [5, 6, 7, 8, 9, 10];
     const [maze, setMaze] = useState(new Maze(7, true));
+    const sizes = [5, 6, 7, 8, 9, 10];
 
     function Canvas() {
         const screenWidth = Dimensions.get('window').width;
