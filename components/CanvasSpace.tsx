@@ -95,4 +95,4 @@ export default function CanvasSpace(props: { space: Space, maze: Maze, size: num
             }
         </View>
     );
-};
+}
