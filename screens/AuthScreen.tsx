@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { View, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import ProfanityFilter from 'bad-words';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import {collection, doc, getDocs, query, setDoc, where} from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth/react-native';
 
@@ -33,23 +34,43 @@ export default function AuthScreen({ navigation }) {
     const handleSignUp = async () => {
         try {
             setIsLoading(true);
-            const q = query(collection(db, 'users'), where("email", "==", email));
+
+            const username = email.slice(0, email.indexOf('@'));
+            const filter = new ProfanityFilter();
+
+            for (let i = 0; i < username.length; i++) {
+                for (let j = i; j <= username.length; j++) {
+                    if (filter.isProfane(username.slice(i, j))) {
+                        setIsLoading(false);
+                        alert('Please do not use an email address containing inappropriate language.');
+                        return;
+                    }
+                }
+            }
+
+            const q = query(collection(db, 'users'), where('email', '==', email));
             const querySnapshot = await getDocs(q);
+
             if (querySnapshot.size > 0) {
                 setIsLoading(false);
-                alert('Email is already in use');
+                alert(`${email} is already in use.`);
                 return;
             }
+
             if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/.test(password)) {
                 setIsLoading(false);
-                alert('Password must be at least 10 characters and contain at least one letter and one number');
+                alert('Password must be at least 10 characters and contain at least one letter and one number.');
                 return;
             }
+
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
             setIsLoading(false);
-            await setDoc(doc(db, 'users', user.uid), {
+
+            await setDoc(doc(db, 'users', user.uid), { 
                 email: email,
             });
+
             navigation.navigate('Home');
         } catch (error) {
             setIsLoading(false);
