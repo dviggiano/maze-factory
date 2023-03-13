@@ -6,10 +6,11 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import Maze from '../maze/Maze';
 import { useState } from 'react';
+import BadWords from 'bad-words';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
+import Maze from '../maze/Maze';
 import Space from '../maze/Space';
 import CanvasSpace from './CanvasSpace';
 
@@ -80,6 +81,13 @@ export default function BuildTab(props) {
                             'Name:',
                             '',
                             async (input) => {
+                                const filter = new BadWords();
+
+                                if (filter.isProfane(input)) {
+                                    Alert.alert('Please do not include inappropriate language.');
+                                    return;
+                                }
+
                                 if (/^[a-zA-Z0-9\s]+$/.test(input)) {
                                     await handlePress(input.trim());
                                 } else {

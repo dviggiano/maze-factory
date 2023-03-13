@@ -1,11 +1,14 @@
-import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions, RefreshControl } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export default function MenuTab(props) {
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView
+            style={styles.container}
+            refreshControl={ <RefreshControl refreshing={props.loading} onRefresh={props.onRefresh} /> }
+        >
             {props.mazes.map((maze: {
                 plays: number;
                 id: string,
@@ -31,7 +34,7 @@ export default function MenuTab(props) {
                             </Text>
                         }
                         <Text style={styles.creator}>
-                            Created: {maze.created && maze.created + ' '}by {maze.creator}
+                            Created: {maze.created && maze.created + '\n'}by {maze.creator}
                         </Text>
                     </View>
                 </View>

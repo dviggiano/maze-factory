@@ -1,5 +1,6 @@
 import {
     View,
+    Text,
     StatusBar,
     StyleSheet,
     Platform,
@@ -17,6 +18,7 @@ import MenuTab from '../components/MenuTab';
 
 export default function HomeScreen({ navigation }) {
     const [mazes, setMazes] = useState([]);
+    const [failed, setFailed] = useState(false);
     const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState(0);
 
@@ -38,19 +40,12 @@ export default function HomeScreen({ navigation }) {
 
         for (let i = 0; i < Math.min(rawMazes.length, 25); i++) {
             const maze = rawMazes[i].data();
-            console.log(maze.created);
+            const created = new Date(maze.created).toLocaleDateString();
 
+            maze.created = created === 'Invalid Date' ? null : created;
             maze.id = rawMazes[i].id;
             maze.creator = await getUserEmail(maze.creator);
             maze.recordHolder = maze.recordHolder ? await getUserEmail(maze.recordHolder) : null;
-
-            const created = new Date(maze.created).toLocaleDateString(undefined, {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-            });
-
-            maze.created = created === 'Invalid Date' ? null : created;
 
             processedMazes.push(maze);
         }
@@ -66,18 +61,38 @@ export default function HomeScreen({ navigation }) {
         return userData.email.slice(0, userData.email.indexOf('@'));
     }
 
-    useEffect(() => { fetchMazes() }, []);
+    useEffect(() => { fetchMazes().catch(_ => { setFailed(true) }) }, []);
 
+    // @ts-ignore
     return (
         <View style={styles.container}>
             {
                 tab ?
                 <BuildTab refresh={fetchMazes} /> :
                 loading ?
-                    <View style={{justifyContent: 'center', height: Dimensions.get('window').height - 130}}>
+                    <View style={styles.tab}>
                         <ActivityIndicator size="large" color="#000000" />
                     </View> :
-                    <MenuTab mazes={mazes} navigation={navigation} refresh={fetchMazes} />
+                    failed ?
+                        <View style={styles.tab}>
+                            <Text style={{ fontSize: 32, fontWeight: 'bold', alignSelf: 'center' }}>
+                                Failed to load mazes.
+                            </Text>
+                            <Text style={{ marginTop: 15, fontSize: 20, alignSelf: 'center' }}>
+                                Sorry about that! Try again later.
+                            </Text>
+                        </View>
+                        : <MenuTab
+                            mazes={mazes}
+                            navigation={navigation}
+                            refresh={fetchMazes}
+                            loading={loading}
+                            onRefresh={async () => {
+                                setLoading(true);
+                                await fetchMazes();
+                                setLoading(false);
+                            }}
+                        />
             }
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -150,5 +165,10 @@ const styles = StyleSheet.create({
     activeTab: {
         backgroundColor: '#2f3542',
         borderRadius: 50,
+    },
+    tab: {
+        justifyContent: 'center',
+        textAlign: 'center',
+        height: Dimensions.get('window').height - 130,
     },
 });

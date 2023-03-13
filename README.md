@@ -17,17 +17,16 @@ npm start
 
 ## Improvements
 
-* Improve lackluster UI
-* Redesign maze builder to handle more functionality, like drawing
-* Improve maze trace with fluid graphics
+### Codebase
+
 * Move Firebase operations to hidden backend or serverless proxy
 * Clean up codebase; utilize type-checking, use uniform styling, complete documentation
-* Add filters on user-generated content
-* Improve error messages on authentication screen
 * Add app icons and other necessary files for deployment
+
+### Features
+
+* Improve error messages on authentication screen
 * Allow users to share their record times or published mazes via social media
 * Add accessibility features including dictation and haptic feedback
-
-## Bug Fixes
-
-* All creation dates rendering as today
+* Redesign maze builder to handle more functionality, like drawing
+* Improve maze trace with fluid graphics
