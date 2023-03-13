@@ -83,9 +83,13 @@ export default function BuildTab(props) {
                             async (input) => {
                                 const filter = new BadWords();
 
-                                if (filter.isProfane(input)) {
-                                    Alert.alert('Please do not include inappropriate language.');
-                                    return;
+                                for (let i = 0; i < input.length; i++) {
+                                    for (let j = i; j <= input.length; j++) {
+                                        if (filter.isProfane(input.slice(i, j))) {
+                                            Alert.alert('Please do not include inappropriate language.');
+                                            return;
+                                        }
+                                    }
                                 }
 
                                 if (/^[a-zA-Z0-9\s]+$/.test(input)) {
