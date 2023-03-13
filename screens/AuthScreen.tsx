@@ -65,11 +65,11 @@ export default function AuthScreen({ navigation }) {
 
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
 
-            setIsLoading(false);
-
             await setDoc(doc(db, 'users', user.uid), { 
                 email: email,
             });
+
+            setIsLoading(false);
 
             navigation.navigate('Home');
         } catch (error) {
