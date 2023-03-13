@@ -7,7 +7,7 @@ import {
     View
 } from 'react-native';
 import { useState } from 'react';
-import BadWords from 'bad-words';
+import ProfanityFilter from 'bad-words';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import Maze from '../maze/Maze';
@@ -81,7 +81,7 @@ export default function BuildTab(props) {
                             'Name:',
                             '',
                             async (input) => {
-                                const filter = new BadWords();
+                                const filter = new ProfanityFilter();
 
                                 for (let i = 0; i < input.length; i++) {
                                     for (let j = i; j <= input.length; j++) {
