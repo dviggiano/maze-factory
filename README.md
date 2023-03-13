@@ -19,6 +19,7 @@ npm start
 
 ### Codebase
 
+* Handle errors for all async events
 * Move Firebase operations to hidden backend or serverless proxy
 * Clean up codebase; utilize type-checking, use uniform styling, complete documentation
 * Add app icons and other necessary files for deployment
@@ -26,7 +27,12 @@ npm start
 ### Features
 
 * Improve error messages on authentication screen
+* Blur the maze to only show content near user's most recent tap
 * Allow users to share their record times or published mazes via social media
 * Add accessibility features including dictation and haptic feedback
-* Redesign maze builder to handle more functionality, like drawing
+* Redesign maze builder to handle more functionality, like drawing and setting colors
 * Improve maze trace with fluid graphics
+
+## Bug Fixes
+
+* None as of right now!

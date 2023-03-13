@@ -64,26 +64,26 @@ export default function AuthScreen({ navigation }) {
                 style={{height: 90, width: "100%", resizeMode: 'contain'}}
             />
             <Text style={styles.br}>{'\n'}</Text>
-            <Text style={styles.label}>{'Email'}</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
+                placeholderTextColor="#888888"
                 autoCapitalize="none"
                 value={email}
                 onChangeText={(text) => setEmail(text)}
             />
-            <Text style={styles.label}>{'Password'}</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Password"
+                placeholderTextColor="#888888"
                 secureTextEntry
                 value={password}
                 onChangeText={(text) => setPassword(text)}
             />
-            <TouchableOpacity style={[styles.button, {backgroundColor: "#c3a3ff"}]} onPress={handleSignIn}>
+            <TouchableOpacity style={[styles.button, styles.shadow, {backgroundColor: "#c3a3ff"}]} onPress={handleSignIn}>
                 <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, {backgroundColor: "#8b6cc4"}]} onPress={handleSignUp}>
+            <TouchableOpacity style={[styles.button, styles.shadow, {backgroundColor: "#8b6cc4"}]} onPress={handleSignUp}>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>
@@ -101,12 +101,6 @@ const styles = StyleSheet.create({
     br: {
         fontSize: 8,
     },
-    label: {
-        fontSize: 12,
-        paddingLeft: 20,
-        paddingBottom: 5,
-        alignSelf: "flex-start",
-    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
@@ -118,7 +112,7 @@ const styles = StyleSheet.create({
         borderColor: '#919191',
         borderWidth: 1,
         borderRadius: 15,
-        paddingHorizontal: 25,
+        paddingHorizontal: 20,
         marginBottom: 10,
     },
     button: {
@@ -130,6 +124,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderColor: '#919191',
         borderWidth: 1
+    },
+    shadow: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 3.84,
     },
     buttonText: {
         color: '#ffffff',

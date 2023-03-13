@@ -27,7 +27,7 @@ export default function PlayScreen({ navigation, route }) {
         'Alright!',
         'Killed it!',
         'Great work!',
-        'Maze-sanity!'
+        'Maze-sanity!',
     ];
 
     function CompletionModal() {
@@ -49,9 +49,9 @@ export default function PlayScreen({ navigation, route }) {
                         </Text>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => {
+                            onPress={async () => {
                                 if (((maze.end - maze.start) / 1000).toFixed(2) < record) {
-                                    updateDoc(doc(db, 'mazes', route.params.id), {
+                                    await updateDoc(doc(db, 'mazes', route.params.id), {
                                         recordTime: Number(((maze.end - maze.start) / 1000).toFixed(2)),
                                         recordHolder: auth.currentUser.uid
                                     });

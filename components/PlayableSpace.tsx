@@ -1,4 +1,4 @@
-import { Animated, Pressable, StyleSheet } from 'react-native';
+import { Animated, Pressable, StyleSheet, Vibration } from 'react-native';
 import Space from '../maze/Space';
 import Maze from '../maze/Maze';
 import { useRef, useState } from 'react';
@@ -29,7 +29,7 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     const backgroundColor = animation.interpolate({
         inputRange: [0, 1],
-        outputRange: ['transparent', '#cbd3f7'],
+        outputRange: ['white', '#cbd3f7'],
     });
 
     style.push({
@@ -49,13 +49,13 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     if (props.space.connected.filter(neighbor => neighbor.y === leftIndex).length === 0) {
         if (isInBounds(leftIndex)) {
-            style.push({ borderLeftColor: borderColor, });
+            style.push({ borderLeftColor: borderColor });
         } else {
             if (props.maze.entrance !== props.space && props.maze.exit !== props.space) {
-                style.push({ borderLeftColor: borderColor, });
+                style.push({ borderLeftColor: borderColor });
             }
 
-            style.push({ borderLeftWidth: 2, });
+            style.push({ borderLeftWidth: 2 });
         }
     }
 
@@ -63,13 +63,13 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     if (props.space.connected.filter(neighbor => neighbor.y === rightIndex).length === 0) {
         if (isInBounds(rightIndex)) {
-            style.push({ borderRightColor: borderColor, });
+            style.push({ borderRightColor: borderColor });
         } else {
             if (props.maze.entrance !== props.space && props.maze.exit !== props.space) {
-                style.push({ borderRightColor: borderColor, });
+                style.push({ borderRightColor: borderColor });
             }
 
-            style.push({ borderRightWidth: 2, });
+            style.push({ borderRightWidth: 2 });
         }
     }
 
@@ -77,13 +77,13 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     if (props.space.connected.filter(neighbor => neighbor.x === upIndex).length === 0) {
         if (isInBounds(upIndex)) {
-            style.push({ borderTopColor: borderColor, });
+            style.push({ borderTopColor: borderColor });
         } else {
             if (props.maze.entrance !== props.space && props.maze.exit !== props.space) {
-                style.push({ borderTopColor: borderColor, });
+                style.push({ borderTopColor: borderColor });
             }
 
-            style.push({ borderTopWidth: 2, });
+            style.push({ borderTopWidth: 2 });
         }
     }
 
@@ -91,22 +91,24 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     if (props.space.connected.filter(neighbor => neighbor.x === downIndex).length === 0) {
         if (isInBounds(downIndex)) {
-            style.push({ borderBottomColor: borderColor, });
+            style.push({ borderBottomColor: borderColor });
         } else {
             if (props.maze.entrance !== props.space && props.maze.exit !== props.space) {
-                style.push({ borderBottomColor: borderColor, });
+                style.push({ borderBottomColor: borderColor });
             }
 
-            style.push({ borderBottomWidth: 2, });
+            style.push({ borderBottomWidth: 2 });
         }
     }
 
     const [started, setStarted] = useState(false);
 
     function onPress() {
-        if (props.space.connected.filter(neighbor => neighbor.active).length !== 0 ||
-            props.space === props.maze.entrance) {
+        if (!props.space.active &&
+            (props.space.connected.filter(neighbor => neighbor.active).length !== 0 ||
+            props.space === props.maze.entrance)) {
             props.space.active = true;
+            // Vibration.vibrate(10); TODO subtle haptic feedback
             handleAnimate();
             setActive(true);
             setStarted(true);
@@ -119,9 +121,8 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
     }
 
     return (
-        <Animated.View style={StyleSheet.flatten(style)}>
+        <Animated.View ref={componentRef} style={StyleSheet.flatten(style)}>
             <Pressable
-                ref={componentRef}
                 onLayout={() => { props.allSpaces.push({ activate: onPress, ref: componentRef, active: active }) }}
                 onPress={onPress}
             >

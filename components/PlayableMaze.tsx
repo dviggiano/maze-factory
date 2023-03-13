@@ -16,10 +16,13 @@ export default function PlayableMaze(props: { maze: Maze, modal }) {
         const { moveX, moveY } = gestureState;
         
         spaces.forEach((space) => {
-            if (!space['active'] && space['ref'].current) {
-                space['ref'].current.measure((x, y, width, height, pageX, pageY) => {
-                    if (moveX >= pageX && moveX <= pageX + width && moveY >= pageY && moveY <= pageY + height) {
-                        space['activate']();
+            if (!space.active && space.ref.current) {
+                space.ref.current.measure((x, y, width, height, pageX, pageY) => {
+                    if (moveX >= pageX - width * .1 &&
+                        moveX <= pageX + width * 1.1 &&
+                        moveY >= pageY - height * .1 &&
+                        moveY <= pageY + height * 1.1) {
+                        space.activate();
                     }
                 });
             }

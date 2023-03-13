@@ -70,29 +70,29 @@ export default function HomeScreen({ navigation }) {
                 tab ?
                 <BuildTab refresh={fetchMazes} /> :
                 loading ?
-                    <View style={styles.tab}>
-                        <ActivityIndicator size="large" color="#000000" />
-                    </View> :
-                    failed ?
-                        <View style={styles.tab}>
-                            <Text style={{ fontSize: 32, fontWeight: 'bold', alignSelf: 'center' }}>
-                                Failed to load mazes.
-                            </Text>
-                            <Text style={{ marginTop: 15, fontSize: 20, alignSelf: 'center' }}>
-                                Sorry about that! Try again later.
-                            </Text>
-                        </View>
-                        : <MenuTab
-                            mazes={mazes}
-                            navigation={navigation}
-                            refresh={fetchMazes}
-                            loading={loading}
-                            onRefresh={async () => {
-                                setLoading(true);
-                                await fetchMazes();
-                                setLoading(false);
-                            }}
-                        />
+                <View style={styles.tab}>
+                    <ActivityIndicator size="large" color="#000000" />
+                </View> :
+                failed ?
+                <View style={styles.tab}>
+                    <Text style={{ fontSize: 32, fontWeight: 'bold', alignSelf: 'center' }}>
+                        Failed to load mazes.
+                    </Text>
+                    <Text style={{ marginTop: 15, fontSize: 20, alignSelf: 'center' }}>
+                        Sorry about that! Try again later.
+                    </Text>
+                </View> :
+                <MenuTab
+                    mazes={mazes}
+                    navigation={navigation}
+                    refresh={fetchMazes}
+                    loading={loading}
+                    onRefresh={async () => {
+                        setLoading(true);
+                        await fetchMazes();
+                        setLoading(false);
+                    }}
+                />
             }
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -108,7 +108,10 @@ export default function HomeScreen({ navigation }) {
                     <FontAwesome name="pencil" size={24} style={styles.icon} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => { signOut(auth); navigation.navigate('Auth'); }}
+                    onPress={async () => {
+                        await signOut(auth);
+                        navigation.navigate('Auth');
+                    }}
                     style={styles.iconContainer}
                 >
                     <FontAwesome name="sign-out" size={24} style={styles.icon} color="#fff" />
