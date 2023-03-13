@@ -11,9 +11,9 @@ import { useState } from 'react';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import Space from '../maze/Space';
-import CanvasSpace from '../components/CanvasSpace';
+import CanvasSpace from './CanvasSpace';
 
-export default function BuildScreen(props) {
+export default function BuildTab(props) {
     const [maze, setMaze] = useState(new Maze(7, true));
     const sizes = [5, 6, 7, 8, 9, 10];
 

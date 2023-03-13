@@ -12,10 +12,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../firebase';
-import BuildScreen from './BuildScreen';
-import MenuScreen from './MenuScreen';
+import BuildTab from '../components/BuildTab';
+import MenuTab from '../components/MenuTab';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
     const [mazes, setMazes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState(0);
@@ -24,24 +24,36 @@ export default function HomeScreen({navigation}) {
         setLoading(true);
         const q = query(collection(db, 'mazes'));
         const querySnapshot = await getDocs(q);
-        const rawMazes = querySnapshot.docs.slice(0, 20);
+        const rawMazes = querySnapshot.docs;
+
+        // TODO figure out a better way to format this
+        rawMazes.sort((a, b) => {
+            // @ts-ignore
+            a = a.data(); b = b.data();
+            // @ts-ignore
+            return a.created !== b.created ? b.created - a.created : b.plays - a.plays;
+        });
+
         const processedMazes = [];
 
-        for (const rawMaze of rawMazes) {
-            const maze = rawMaze.data();
-            const created = maze.created.toDate().split(' ');
+        for (let i = 0; i < Math.min(rawMazes.length, 25); i++) {
+            const maze = rawMazes[i].data();
+            console.log(maze.created);
 
-            maze.id = rawMaze.id;
-            maze.created = `${created[1]} ${created[2]}, ${created[3]}`;
+            maze.id = rawMazes[i].id;
             maze.creator = await getUserEmail(maze.creator);
             maze.recordHolder = maze.recordHolder ? await getUserEmail(maze.recordHolder) : null;
 
+            const created = new Date(maze.created).toLocaleDateString(undefined, {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+            });
+
+            maze.created = created === 'Invalid Date' ? null : created;
+
             processedMazes.push(maze);
         }
-
-        processedMazes.sort((a, b) =>
-            a.created !== b.created ? b.created - a.created : b.plays - a.plays
-        );
 
         setLoading(false);
         setMazes(processedMazes);
@@ -60,16 +72,12 @@ export default function HomeScreen({navigation}) {
         <View style={styles.container}>
             {
                 tab ?
-                <BuildScreen refresh={fetchMazes} /> :
+                <BuildTab refresh={fetchMazes} /> :
                 loading ?
-                    <View style={{justifyContent: "center", height: Dimensions.get('window').height - 130}}>
+                    <View style={{justifyContent: 'center', height: Dimensions.get('window').height - 130}}>
                         <ActivityIndicator size="large" color="#000000" />
                     </View> :
-                    <MenuScreen
-                        mazes = {mazes}
-                        navigation={navigation}
-                        fetchMazes={fetchMazes}
-                    />
+                    <MenuTab mazes={mazes} navigation={navigation} refresh={fetchMazes} />
             }
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -85,7 +93,7 @@ export default function HomeScreen({navigation}) {
                     <FontAwesome name="pencil" size={24} style={styles.icon} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => { signOut(auth); navigation.navigate("Auth"); }}
+                    onPress={() => { signOut(auth); navigation.navigate('Auth'); }}
                     style={styles.iconContainer}
                 >
                     <FontAwesome name="sign-out" size={24} style={styles.icon} color="#fff" />
@@ -100,7 +108,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: Platform.OS == "android" ? StatusBar.currentHeight : 30,
+        paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 30,
     },
     footer: {
         elevation: 5,
@@ -124,7 +132,7 @@ const styles = StyleSheet.create({
     },
     iconContainer: {
         padding: 10,
-        alignItems: "center"
+        alignItems: 'center',
     },
     icon: {
         marginRight: 10,

@@ -1,16 +1,16 @@
 import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { FontAwesome } from '@expo/vector-icons';
 
-export default function MenuScreen(props) {
+export default function MenuTab(props) {
     return (
         <ScrollView style={styles.container}>
             {props.mazes.map((maze: {
                 plays: number;
                 id: string,
                 name: string,
-                created: string,
+                created: string | null,
                 creator: string,
                 recordTime: number,
                 recordHolder: string
@@ -18,7 +18,7 @@ export default function MenuScreen(props) {
                     <View style={styles.icon}>
                         <TouchableOpacity onPress={() => {
                             updateDoc(doc(db, 'mazes', maze.id), { plays: maze.plays + 1 });
-                            props.navigation.navigate('Play', { id: maze.id, refresh: props.fetchMazes })
+                            props.navigation.navigate('Play', { id: maze.id, refresh: props.refresh })
                         }}>
                             <FontAwesome name="play-circle" size={48} color="#333" />
                         </TouchableOpacity>
@@ -31,7 +31,7 @@ export default function MenuScreen(props) {
                             </Text>
                         }
                         <Text style={styles.creator}>
-                            Created: {maze.created} by {maze.creator}
+                            Created: {maze.created && maze.created + ' '}by {maze.creator}
                         </Text>
                     </View>
                 </View>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         margin: 30,
         padding: 20,
         marginTop: 5,
-        width: "100%",
+        width: '100%',
         height: Dimensions.get('window').height - 130
     },
     box: {
