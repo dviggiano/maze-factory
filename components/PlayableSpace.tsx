@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Animated, Pressable, StyleSheet } from 'react-native';
 import Space from '../maze/Space';
 import Maze from '../maze/Maze';
 import { useRef, useState } from 'react';
@@ -17,12 +17,26 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
     }];
 
     const [active, setActive] = useState(props.space.active);
+    const [animation] = useState(new Animated.Value(0));
+
+    function handleAnimate() {
+        Animated.timing(animation, {
+            toValue: 1,
+            duration: 100,
+            useNativeDriver: false,
+        }).start();
+    }
+
+    const backgroundColor = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['transparent', '#cbd3f7'],
+    });
 
     style.push({
         width: props.size,
         height: props.size,
-        backgroundColor: active ? '#cbd3f7' : 'transparent',
-        borderColor: active ? '#cbd3f7' : 'transparent',
+        backgroundColor: active ? backgroundColor : 'transparent',
+        borderColor: active ? backgroundColor : 'transparent',
     });
 
     function isInBounds(index: number): boolean {
@@ -89,10 +103,11 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
 
     const [started, setStarted] = useState(false);
 
-    const onPress = () => {
+    function onPress() {
         if (props.space.connected.filter(neighbor => neighbor.active).length !== 0 ||
             props.space === props.maze.entrance) {
             props.space.active = true;
+            handleAnimate();
             setActive(true);
             setStarted(true);
 
@@ -104,17 +119,18 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
     }
 
     return (
-        <Pressable
-            ref={componentRef}
-            onLayout={() => { props.allSpaces.push({ activate: onPress, ref: componentRef, active: active }) }}
-            onPress={onPress}
-            style={StyleSheet.flatten(style)}
-        >
-            {
-                props.maze.entrance === props.space &&
-                !started &&
-                <FontAwesome name="star" size={20} color="#000" />
-            }
-        </Pressable>
+        <Animated.View style={StyleSheet.flatten(style)}>
+            <Pressable
+                ref={componentRef}
+                onLayout={() => { props.allSpaces.push({ activate: onPress, ref: componentRef, active: active }) }}
+                onPress={onPress}
+            >
+                {
+                    props.maze.entrance === props.space &&
+                    !started &&
+                    <FontAwesome name="star" size={20} color="#000" />
+                }
+            </Pressable>
+        </Animated.View>
     );
 }
