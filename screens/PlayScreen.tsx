@@ -13,6 +13,7 @@ import PlayableMaze from '../components/PlayableMaze';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { FontAwesome } from '@expo/vector-icons';
+import * as Haptics from "expo-haptics";
 
 export default function PlayScreen({ navigation, route }) {
     const [maze, setMaze] = useState<Maze | null>(null);
@@ -50,6 +51,8 @@ export default function PlayScreen({ navigation, route }) {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={async () => {
+                                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
                                 if (((maze.end - maze.start) / 1000).toFixed(2) < record) {
                                     await updateDoc(doc(db, 'mazes', route.params.id), {
                                         recordTime: Number(((maze.end - maze.start) / 1000).toFixed(2)),

@@ -15,6 +15,7 @@ import { signOut } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import BuildTab from '../components/BuildTab';
 import MenuTab from '../components/MenuTab';
+import * as Haptics from 'expo-haptics';
 
 export default function HomeScreen({ navigation }) {
     const [mazes, setMazes] = useState([]);
@@ -96,19 +97,26 @@ export default function HomeScreen({ navigation }) {
             }
             <View style={styles.footer}>
                 <TouchableOpacity
-                    onPress={ () => { setTab(0) } }
+                    onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                        setTab(0);
+                    }}
                     style={[styles.iconContainer, tab == 0 && styles.activeTab]}
                 >
                     <FontAwesome name="list-ul" size={24} style={styles.icon} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={ () => { setTab(1) } }
+                    onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                        setTab(1);
+                    }}
                     style={[styles.iconContainer, tab == 1 && styles.activeTab]}
                 >
                     <FontAwesome name="pencil" size={24} style={styles.icon} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={async () => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                         await signOut(auth);
                         navigation.navigate('Auth');
                     }}

@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth/react-native';
+import * as Haptics from 'expo-haptics';
 
 export default function AuthScreen({ navigation }) {
     useEffect(() => {
@@ -19,8 +20,10 @@ export default function AuthScreen({ navigation }) {
     const [password, setPassword] = useState(null);
 
     const handleSignIn = async () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
         try {
-            const { user } = await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
             navigation.navigate('Home');
         } catch (error) {
             alert(error.message);
@@ -28,6 +31,8 @@ export default function AuthScreen({ navigation }) {
     };
 
     const handleSignUp = async () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
         try {
             const username = email.slice(0, email.indexOf('@'));
             const filter = new ProfanityFilter();

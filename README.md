@@ -30,7 +30,7 @@ npm start
 * Blur the maze to only show content near user's most recent tap
 * Improve maze menu to allow for searching, sorting, filtering, etc.
 * Allow users to share their record times or published mazes via social media
-* Add accessibility features including dictation and haptic feedback
+* Add accessibility features including dictation
 * Redesign maze builder to handle more functionality, like drawing and setting colors
 * Improve maze trace with fluid graphics
 

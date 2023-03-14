@@ -13,6 +13,7 @@ import { auth, db } from '../firebase';
 import Maze from '../maze/Maze';
 import Space from '../maze/Space';
 import CanvasSpace from './CanvasSpace';
+import * as Haptics from 'expo-haptics';
 
 export default function BuildTab(props) {
     const [maze, setMaze] = useState(new Maze(7, true));
@@ -27,8 +28,11 @@ export default function BuildTab(props) {
 
         return (
             <TouchableOpacity
-                onPress={ () => setMaze(new Maze(sizes[Math.floor(Math.random() * sizes.length)], true)) }
-                style={ styles.maze }
+                onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    setMaze(new Maze(sizes[Math.floor(Math.random() * sizes.length)], true));
+                }}
+                style={styles.maze}
             >
                 {maze.spaces.map((column: Space[]) => (
                     <View key={key++} style={{ flexDirection: 'row', }}>
@@ -62,6 +66,7 @@ export default function BuildTab(props) {
                 template: maze.getTemplate()
             });
 
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
             Alert.alert('Upload successful!');
 
             await props.refresh();
@@ -77,6 +82,8 @@ export default function BuildTab(props) {
                 <TouchableOpacity
                     style={[styles.button, styles.shadow]}
                     onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
                         Alert.prompt(
                             'Name:',
                             '',

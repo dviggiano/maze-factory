@@ -84,8 +84,6 @@ export default function CanvasSpace(props: { space: Space, maze: Maze, size: num
             style.push({ borderBottomWidth: 2, });
         }
     }
-    
-    const entranceOrExit = [props.maze.entrance, props.maze.exit].includes(props.space);
 
     return (
         <View style={StyleSheet.flatten(style)}>

@@ -1,4 +1,5 @@
-import { Animated, Pressable, StyleSheet, Vibration } from 'react-native';
+import { Animated, Pressable, StyleSheet } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import Space from '../maze/Space';
 import Maze from '../maze/Maze';
 import { useRef, useState } from 'react';
@@ -22,7 +23,7 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
     function handleAnimate() {
         Animated.timing(animation, {
             toValue: 1,
-            duration: 100,
+            duration: 250,
             useNativeDriver: false,
         }).start();
     }
@@ -108,14 +109,16 @@ export default function PlayableSpace(props: { allSpaces: any[], space: Space, m
             (props.space.connected.filter(neighbor => neighbor.active).length !== 0 ||
             props.space === props.maze.entrance)) {
             props.space.active = true;
-            // Vibration.vibrate(10); TODO subtle haptic feedback
             handleAnimate();
             setActive(true);
             setStarted(true);
 
             if (props.space === props.maze.exit) {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
                 props.maze.end = new Date();
                 props.modal();
+            } else {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             }
         }
     }
