@@ -27,7 +27,6 @@ npm start
 ### Features
 
 * Improve error messages on authentication screen
-* Blur the maze to only show content near user's most recent tap
 * Improve maze menu to allow for searching, sorting, filtering, etc.
 * Allow users to share their record times or published mazes via social media
 * Add accessibility features including dictation
