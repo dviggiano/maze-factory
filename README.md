@@ -21,7 +21,7 @@ npm start
 
 * Handle errors for all async events
 * Move Firebase operations to hidden backend or serverless proxy
-* Clean up codebase; utilize type-checking, use uniform styling, complete documentation
+* Clean up codebase; universally utilize type-checking, ensure uniform styling, complete documentation
 * Add app icons and other necessary files for deployment
 
 ### Features
