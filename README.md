@@ -32,7 +32,6 @@ npm start
 * Allow users to share their record times or published mazes via social media
 * Add accessibility features including dictation
 * Redesign maze builder to handle more functionality, like drawing and setting colors
-* Improve maze trace with fluid graphics
 
 ## Bug Fixes
 
