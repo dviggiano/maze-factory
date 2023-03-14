@@ -60,7 +60,7 @@ export default function PlayScreen({ navigation, route }) {
                                     });
                                 }
 
-                                route.params.refresh();
+                                route.params.refresh().catch(_ => { route.params.fail(true) });
                                 navigation.navigate('Home');
                             }}>
                             <Text style={styles.buttonText}>Return</Text>
@@ -101,7 +101,10 @@ export default function PlayScreen({ navigation, route }) {
                 </View>
                 <PlayableMaze maze={maze} modal={setModalVisible} />
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('Home') }}
+                    onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                        navigation.navigate('Home');
+                    }}
                     style={{ marginTop: 50, padding: 10, alignItems: 'center' }}
                 >
                     <FontAwesome name="home" size={48} color="#000" />

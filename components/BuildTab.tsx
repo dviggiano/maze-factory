@@ -69,7 +69,7 @@ export default function BuildTab(props) {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
             Alert.alert('Upload successful!');
 
-            await props.refresh();
+            await props.refresh().catch(_ => { props.fail(true) });
         } catch (error) {
             Alert.alert('Could not post your maze...sorry about that.');
         }

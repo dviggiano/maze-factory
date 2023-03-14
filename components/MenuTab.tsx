@@ -2,6 +2,7 @@ import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions, Refre
 import { FontAwesome } from '@expo/vector-icons';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import * as Haptics from "expo-haptics";
 
 export default function MenuTab(props) {
     return (
@@ -20,8 +21,9 @@ export default function MenuTab(props) {
             }) => <View key={maze.id} style={[styles.box, styles.shadow]}>
                     <View style={styles.icon}>
                         <TouchableOpacity onPress={() => {
+                            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                             updateDoc(doc(db, 'mazes', maze.id), { plays: maze.plays + 1 });
-                            props.navigation.navigate('Play', { id: maze.id, refresh: props.refresh })
+                            props.navigation.navigate('Play', { id: maze.id, refresh: props.refresh, fail: props.fail })
                         }}>
                             <FontAwesome name="play-circle" size={48} color="#333" />
                         </TouchableOpacity>

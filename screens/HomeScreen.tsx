@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.container}>
             {
                 tab ?
-                <BuildTab refresh={fetchMazes} /> :
+                <BuildTab refresh={fetchMazes} fail={setFailed} /> :
                 loading ?
                 <View style={styles.tab}>
                     <ActivityIndicator size="large" color="#000000" />

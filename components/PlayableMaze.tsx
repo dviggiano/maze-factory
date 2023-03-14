@@ -1,9 +1,6 @@
-import {View, StyleSheet, Dimensions, PanResponder} from 'react-native';
-import {useRef, useState} from 'react';
-
+import { View, StyleSheet, Dimensions, PanResponder } from 'react-native';
 import Maze from '../maze/Maze';
 import Space from '../maze/Space';
-
 import PlayableSpace from './PlayableSpace';
 
 export default function PlayableMaze(props: { maze: Maze, modal }) {
