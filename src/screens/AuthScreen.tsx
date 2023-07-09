@@ -13,7 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Info } from '../types/enums';
 import InfoContent from '../components/InfoContent';
 
-// TODO look into best way to import images...maybe use SVG?
 const logo = require('../assets/logo.png');
 
 /**

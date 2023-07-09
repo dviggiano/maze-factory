@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 25,
         padding: 14,
-        paddingLeft: 17, // TODO why is this necessary for centering the ActivityIndicator?
+        paddingLeft: 17,
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -42,7 +42,6 @@ export default class Space {
     /**
      * Disconnects the space from another space
      * and returns whether the spaces were connected to begin with.
-     * TODO use this in maze builder
      * @param {Space} space the other space
      * @return {boolean} whether the spaces were connected to begin with
      */

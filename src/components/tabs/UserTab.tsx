@@ -419,7 +419,6 @@ export default function UserTab(props: UserTabProps): JSX.Element {
                                         <Text
                                             style={[styles.attempts, { color: maze.id in user.plays && user.plays[maze.id] === 0 ? '#ed1d0e' : '#666' }]}
                                         >
-                                            {/* TODO not always updating */}
                                             Attempts remaining: {maze.id in user.plays ? user.plays[maze.id] : 3}
                                         </Text>
                                     </View>

@@ -10,8 +10,6 @@ import { UserContext } from '../context/UserContext';
 import { MenuContext } from '../context/MenuContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// TODO document and annotate route parameters
-
 /**
  * The screen for playing a maze.
  * @return {JSX.Element} the rendered screen

@@ -4,7 +4,7 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import SpaceBorders from './SpaceBorders';
 import { PlayableSpaceProps } from '../../types/props';
-import Space from '../../models/Space';
+import Space from '../../models/space';
 import React from 'react';
 
 // TODO add these attributes to Space class

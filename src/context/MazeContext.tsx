@@ -47,7 +47,6 @@ class History {
     deepcopy() {
         const copy = new History(this.maze);
         copy.setMaze = this.setMaze;
-        // TODO deep copies of arrays necessary?
         copy.previous = [...this.previous];
         copy.future = [...this.future];
         return copy;
