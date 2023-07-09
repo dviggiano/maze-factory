@@ -1,12 +1,8 @@
 Maze Factory is an iOS app developed by David M. Viggiano and published on the iOS App Store. All rights reserved.
 
-## License
+## 1. License
 
 The source code for Maze Factory is made available under the following license terms. By accessing, downloading, or using the source code, you agree to be bound by these terms.
-
-### 1. Grant of License
-
-Subject to the terms and conditions of this license, David M. Viggiano grants you a worldwide, royalty-free, non-exclusive license to use, modify, compile, and distribute the source code of Maze Factory for personal or commercial purposes.
 
 ### 2. Restrictions
 
