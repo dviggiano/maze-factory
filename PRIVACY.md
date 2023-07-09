@@ -66,7 +66,7 @@ We reserve the right to modify or update this Privacy Policy at any time. If we 
 
 If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact mazefactoryapp@gmail.com.
 
-By using Maze Factory, you signify your acceptance of this Privacy Policy. If you do not agree with this policy, please do not use our app.
+## By using Maze Factory, you signify your acceptance of this Privacy Policy. If you do not agree with this policy, please do not use our app.
 
 Thank you for entrusting us with your personal information.
 
