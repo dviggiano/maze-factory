@@ -143,4 +143,4 @@ Download the [Expo Go iOS app](https://apps.apple.com/us/app/expo-go/id982107779
 
 <hr />
 
-Copyright &copy; 2023 David Viggiano
+Copyright &copy; 2023 David M. Viggiano
