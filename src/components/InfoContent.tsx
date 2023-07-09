@@ -211,7 +211,7 @@ export default function InfoContent(props: InfoContentProps) {
                 </View>
             }
         </ScrollView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
