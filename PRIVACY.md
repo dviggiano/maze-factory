@@ -70,4 +70,6 @@ If you have any questions, concerns, or requests regarding this Privacy Policy o
 
 Thank you for entrusting us with your personal information.
 
+<hr />
+
 Last Updated: Jul. 8, 2023
