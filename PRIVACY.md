@@ -60,7 +60,7 @@ Our app is not intended for children under the age of 4. We do not knowingly col
 
 ## 7. Changes to the Privacy Policy
 
-We reserve the right to modify or update this Privacy Policy at any time. If we make any material changes, we will notify you by updating the "Effective Date" at the beginning of this policy. We encourage you to review this Privacy Policy periodically to stay informed about how we collect, use, and protect your personal information.
+We reserve the right to modify or update this Privacy Policy at any time. If we make any material changes, we will notify you by updating the "Effective Date" at the end of this policy. We encourage you to review this Privacy Policy periodically to stay informed about how we collect, use, and protect your personal information.
 
 ## 8. Contact Us
 
