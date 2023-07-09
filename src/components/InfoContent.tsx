@@ -193,7 +193,7 @@ export default function InfoContent(props: InfoContentProps) {
                     </Text>
                     <Text style={styles.heading}>7. Changes to the Privacy Policy</Text>
                     <Text style={styles.text}>
-                        We reserve the right to modify or update this Privacy Policy at any time. If we make any material changes, we will notify you by updating the "Effective Date" at the beginning of this policy. We encourage you to review this Privacy Policy periodically to stay informed about how we collect, use, and protect your personal information.
+                        We reserve the right to modify or update this Privacy Policy at any time. If we make any material changes, we will notify you by updating the "Effective Date" at the end of this policy. We encourage you to review this Privacy Policy periodically to stay informed about how we collect, use, and protect your personal information.
                     </Text>
                     <Text style={styles.heading}>8. Contact Us</Text>
                     <Text style={styles.text}>
