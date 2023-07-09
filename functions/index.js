@@ -6,6 +6,7 @@ admin.initializeApp();
 
 const success = { message: 'Document written successfully.' };
 const db = admin.firestore();
+const filter = new BadWordsFilter();
 
 function verify(context) {
     if (!context.auth) {
@@ -251,7 +252,6 @@ exports.searchMazes = functions.https.onCall(async (data, context) => {
 exports.createMaze = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
-        const filter = new BadWordsFilter();
 
         for (let i = 0; i < data.name.length; i++) {
             for (let j = i; j <= data.name.length; j++) {
@@ -292,6 +292,17 @@ exports.createMaze = functions.https.onCall(async (data, context) => {
 exports.createUser = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
+
+        const username = data.email.slice(0, data.email.indexOf('@'));
+
+        for (let i = 0; i < username.length; i++) {
+            for (let j = i; j <= username.length; j++) {
+                if (filter.isProfane(username.slice(i, j))) {
+                    return { error: 'Please do not use an email address containing inappropriate language.' };
+                }
+            }
+        }
+
         const docRef = db.collection('users').doc(data.uid);
         const doc = {
             id: data.uid,
