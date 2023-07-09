@@ -133,14 +133,12 @@ Download the [Expo Go iOS app](https://apps.apple.com/us/app/expo-go/id982107779
 
 ## Codebase
 
-* Clean up codebase; universally utilize type-checking, uniform styling, extract components
+* Universally utilize type-checking
+* Ensure uniform styling
+* Extract reused components
 * Complete documentation
 * Implement test suite
 
 ## Bug Fixes
 
 * None - please report issues [here](https://github.com/dviggiano/maze-factory/issues)!
-
-<hr />
-
-Copyright &copy; 2023 David M. Viggiano
