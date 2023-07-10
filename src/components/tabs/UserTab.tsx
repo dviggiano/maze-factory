@@ -157,6 +157,7 @@ export default function UserTab(props: UserTabProps): JSX.Element {
                                                             style: 'destructive',
                                                             onPress: async () => {
                                                                 await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                                                                props.setLoading(true);
                                                                 await deleteAccount();
                                                                 props.navigation.navigate('Log In');
                                                             },
