@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { UserContext } from '../../context/UserContext';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { signOut } from 'firebase/auth';
-import { auth, registerPlay, removeFavorite } from '../../firebase/functions';
+import { auth, deleteAccount, registerPlay, removeFavorite } from '../../firebase/functions';
 import * as Haptics from 'expo-haptics';
 import { ImpactFeedbackStyle } from 'expo-haptics';
 import { UserTabProps } from '../../types/props';
@@ -94,7 +94,7 @@ export default function UserTab(props: UserTabProps): JSX.Element {
                     </View>
                 </View>
             </Modal>
-        )
+        );
     }
 
     function InfoSelectModal() {
@@ -127,6 +127,49 @@ export default function UserTab(props: UserTabProps): JSX.Element {
                             }}
                             title={'Privacy Policy'}
                         />
+                        <Button
+                            color={'#e33b3b'}
+                            onPress={async () => {
+                                await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                                Alert.alert(
+                                    'Delete Account',
+                                    `We're sorry to see you go, ${user.email.slice(0, user.email.indexOf('@'))}!`,
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            style: 'cancel',
+                                        },
+                                        {
+                                            text: 'Delete',
+                                            style: 'destructive',
+                                            onPress: async () => {
+                                                await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                                                Alert.alert(
+                                                    'Are you sure?',
+                                                    'By deleting your account, all of your user data will be erased forever and cannot be recovered!',
+                                                    [
+                                                        {
+                                                            text: 'Cancel',
+                                                            style: 'cancel',
+                                                        },
+                                                        {
+                                                            text: 'Delete',
+                                                            style: 'destructive',
+                                                            onPress: async () => {
+                                                                await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                                                                await deleteAccount();
+                                                                props.navigation.navigate('Log In');
+                                                            },
+                                                        },
+                                                    ]
+                                                );
+                                            },
+                                        },
+                                    ]
+                                );
+                            }}
+                            title={'Delete Account'}
+                        />
                         <TouchableOpacity
                             style={styles.closeInfo}
                             onPress={async () => {
@@ -147,20 +190,21 @@ export default function UserTab(props: UserTabProps): JSX.Element {
             <InfoModal/>
             <InfoSelectModal/>
             <MazeModal/>
-            <TouchableOpacity
-                style={styles.infoIcon}
-                onPress={async () => {
-                    await Haptics.impactAsync(ImpactFeedbackStyle.Light);
-                    setInfoSelectVisible(true);
-                }}
-            >
-                <Ionicons name="ios-information-circle-outline" size={24} color="#5998de"/>
-            </TouchableOpacity>
             <View style={styles.header}>
-                <Text style={styles.title}>
-                    <FontAwesome name="user" size={24} color="#333"/>
-                    {'\t' + user.email.slice(0, user.email.indexOf('@')).toUpperCase()}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <Text style={styles.title}>
+                        {user.email.slice(0, user.email.indexOf('@')).toUpperCase()}
+                        &nbsp;
+                    </Text>
+                    <TouchableOpacity
+                        onPress={async () => {
+                            await Haptics.impactAsync(ImpactFeedbackStyle.Light);
+                            setInfoSelectVisible(true);
+                        }}
+                    >
+                        <FontAwesome name="gear" size={20} color="#333"/>
+                    </TouchableOpacity>
+                </View>
                 <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
                     <Text style={styles.subheading}>
                         Global Rank: {user.rank ? user.rank : '???'} &bull;
@@ -705,14 +749,6 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ddd',
         borderBottomWidth: StyleSheet.hairlineWidth,
         marginVertical: 8,
-    },
-    infoIcon: {
-        position: 'absolute',
-        top: 1,
-        right: 25,
-        textAlign: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     aboutText: {
         color: '#888',

@@ -152,3 +152,13 @@ export async function registerPlay(uid: string, id: string) {
     const response = await fn({ uid: uid, id: id });
     handleError(response, 'Failed to register play.');
 }
+
+/**
+ * Deletes the user's account.
+ */
+export async function deleteAccount() {
+    const fn = httpsCallable(functions, 'deleteAccount');
+    const response = await fn();
+    handleError(response, 'Failed to delete account.');
+}
+

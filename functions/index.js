@@ -408,3 +408,17 @@ exports.resetPlays = functions.https.onCall(async (data, context) => {
         return { error: error.message };
     }
 });
+
+exports.deleteAccount = functions.https.onCall(async (_, context) => {
+    try {
+        verify(context);
+        const uid = context.auth.uid;
+        await db.collection('users').doc(uid).delete();
+        await admin.auth().deleteUser(uid);
+        return success;
+    } catch (error) {
+        console.error(error);
+        return { error: error.message };
+    }
+});
+
