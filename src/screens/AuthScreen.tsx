@@ -171,7 +171,7 @@ export default function AuthScreen({ navigation }): JSX.Element {
             }
         }
 
-        if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{10,}$/.test(password)) {
+        if (password.length < 10 || !/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
             alert('Password must be at least 10 characters and contain at least one letter and one number.');
             setLoading(false);
             return;
