@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Maze from '../models/maze';
 import { View, Modal, Text, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import PlayableMaze from '../components/maze/PlayableMaze';
-import {getMaze, beatRecord, registerPlay, setFavorite, getUser} from '../firebase/functions';
+import { getMaze, beatRecord, registerPlay, setFavorite, getUser } from '../firebase/functions';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import Loading from '../components/Loading';
