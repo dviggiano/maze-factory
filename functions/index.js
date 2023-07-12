@@ -59,7 +59,8 @@ exports.beatRecord = functions.https.onCall(async (data, context) => {
         if (oldUser !== null) {
             const oldUserRef = db.collection('users').doc(oldUser);
             const oldUserSnap = await oldUserRef.get();
-            if (oldUserSnap.exists()) {
+            
+            if (oldUserSnap.exists) {
                 await oldUserRef.update({ records: admin.firestore.FieldValue.increment(-1) });
             }
         }
