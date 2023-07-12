@@ -54,7 +54,7 @@ exports.beatRecord = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
         const maze = db.collection('mazes').doc(data.mazeId);
-        const oldUser = (await docRef.get()).data().recordHolder;
+        const oldUser = (await maze.get()).data().recordHolder;
 
         if (oldUser !== null) {
             const oldUserRef = db.collection('users').doc(oldUser);
