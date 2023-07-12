@@ -252,10 +252,12 @@ exports.searchMazes = functions.https.onCall(async (data, context) => {
 exports.createMaze = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
+        
+        const testName = data.name.split(/\s+/).join('');
 
-        for (let i = 0; i < data.name.length; i++) {
-            for (let j = i; j <= data.name.length; j++) {
-                if (filter.isProfane(data.name.slice(i, j))) {
+        for (let i = 0; i < testName.length; i++) {
+            for (let j = i; j <= testName.length; j++) {
+                if (filter.isProfane(testName.slice(i, j))) {
                     return { error: 'Please do not use inappropriate language.' };
                 }
             }
