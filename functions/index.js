@@ -361,18 +361,18 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
         const plays = maze.plays + 1;
 
         if (plays >= first.plays) {
+            await thirdRef.set(second);
+            await secondRef.set(first);
             await firstRef.set({
                 id: maze.id,
                 plays: plays,
             });
-            await secondRef.set(first);
-            await thirdRef.set(second);
         } else if (plays >= second.plays) {
+            await thirdRef.set(second);
             await secondRef.set({
                 id: maze.id,
                 plays: plays,
             });
-            await thirdRef.set(second);
         } else if (plays >= third.plays) {
             await thirdRef.set({
                 id: maze.id,
