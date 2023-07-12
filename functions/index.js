@@ -53,21 +53,24 @@ exports.getMaze = functions.https.onCall(async (data, context) => {
 exports.beatRecord = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
-        const docRef = db.collection('mazes').doc(data.mazeId);
+        const maze = db.collection('mazes').doc(data.mazeId);
         const oldUser = (await docRef.get()).data().recordHolder;
 
         if (oldUser !== null) {
             const oldUserRef = db.collection('users').doc(oldUser);
-            await oldUserRef.update({ records: admin.firestore.FieldValue.increment(-1) });
+            const oldUserSnap = await oldUserRef.get();
+            if (oldUserSnap.exists()) {
+                await oldUserRef.update({ records: admin.firestore.FieldValue.increment(-1) });
+            }
         }
 
-        await docRef.update({
+        await maze.update({
             recordTime: data.time,
             recordHolder: data.uid
         });
 
-        const oldUserRef = db.collection('users').doc(data.uid);
-        await oldUserRef.update({ records: admin.firestore.FieldValue.increment(1) });
+        const userRef = db.collection('users').doc(data.uid);
+        await userRef.update({ records: admin.firestore.FieldValue.increment(1) });
 
         return success;
     } catch (error) {
