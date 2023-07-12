@@ -350,9 +350,9 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
         const popular = db.collection('popular');
-        const firstRef = await popular.doc('0');
-        const secondRef = await popular.doc('1');
-        const thirdRef = await popular.doc('2');
+        const firstRef = popular.doc('0');
+        const secondRef = popular.doc('1');
+        const thirdRef = popular.doc('2');
         const mazeRef = db.collection('mazes').doc(data.id);
         const first = (await firstRef.get()).data();
         const second = (await secondRef.get()).data();
