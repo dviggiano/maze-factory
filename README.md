@@ -1,5 +1,7 @@
 # Maze Factory
 
+[<img src="appstore.png" height="50">](https://apps.apple.com/us/app/maze-factory/id6451072154)
+
 > View a demo video [here](https://youtu.be/95CQar_Gtes)!
 
 Cross-platform mobile application targetting iOS users written in React Native.
