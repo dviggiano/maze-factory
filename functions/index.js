@@ -8,8 +8,16 @@ admin.initializeApp();
 const success = { message: 'Document written successfully.' };
 const db = admin.firestore();
 const auth = admin.auth();
-const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-const openai = new OpenAIApi(configuration);
+
+/*
+ * To add additional filtering to ensure user-generated content complies with terms of use,
+ * generate an Open AI API key (see https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/.)
+ * Then, create a .env file in this directory with the following contents:
+ * OPENAI_API_KEY=your-api-key
+ */
+
+const configuration = process.env.OPENAI_API_KEY ? new Configuration({ apiKey: process.env.OPENAI_API_KEY }) : null;
+const openai = configuration ? new OpenAIApi(configuration) : null;
 
 function verify(context) {
     if (!context.auth) {
@@ -18,6 +26,10 @@ function verify(context) {
 }
 
 async function filter(name) {
+    if (openai === null) {
+        return false;
+    }
+
     const prompt = `The name "${name}" is a username or the name of a maze submitted to an maze sharing service. The user agreed to the following terms of use regarding maze name and username submission:
 
 a) Content must not violate any applicable laws, regulations, or third-party rights.
