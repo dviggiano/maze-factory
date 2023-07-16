@@ -416,15 +416,13 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
 
         await mazeRef.update({ plays: admin.firestore.FieldValue.increment(1) });
 
-        if (data.uid !== 'VPw3us2ptqgecet7NsREGhYzIjX2') {
-            const userRef = db.collection('users').doc(data.uid);
-            const userPlays = (await userRef.get()).data().plays;
+        const userRef = db.collection('users').doc(data.uid);
+        const userPlays = (await userRef.get()).data().plays;
 
-            if (data.id in userPlays) {
-                await userRef.update({ [`plays.${data.id}`]: admin.firestore.FieldValue.increment(-1) });
-            } else {
-                await userRef.set({ plays: { ...userPlays, [data.id]: 2 } }, { merge: true });
-            }
+        if (data.id in userPlays) {
+            await userRef.update({ [`plays.${data.id}`]: admin.firestore.FieldValue.increment(-1) });
+        } else {
+            await userRef.set({ plays: { ...userPlays, [data.id]: 2 } }, { merge: true });
         }
 
         return success;
