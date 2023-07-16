@@ -1,4 +1,6 @@
-# Maze Factory [<img src="appstore.png" height="50">](https://apps.apple.com/us/app/maze-factory/id6451072154)
+# Maze Factory
+
+[<img src="appstore.png" height="50">](https://apps.apple.com/us/app/maze-factory/id6451072154)
 
 Cross-platform mobile application targetting iOS users written in React Native.
 Allows users to generate random mazes and share them for others to play and compete for record times.
