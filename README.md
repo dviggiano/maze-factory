@@ -126,6 +126,7 @@ Download the [Expo Go iOS app](https://apps.apple.com/us/app/expo-go/id982107779
 
 ## Features and functionality
 
+* Handle maze and icon rendering on Android
 * Prompt users to rate the app
 * Replace native alerts with custom modals that match the rest of the app
 * Allow users to share mazes via text, etc.
