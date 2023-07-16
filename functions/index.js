@@ -90,7 +90,8 @@ exports.beatRecord = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
         const maze = db.collection('mazes').doc(data.mazeId);
-        const oldUser = (await maze.get()).data().recordHolder;
+        const oldUserSnap = await maze.get();
+        const oldUser = oldUserSnap.data().recordHolder;
 
         if (oldUser !== null) {
             const oldUserRef = db.collection('users').doc(oldUser);
@@ -122,7 +123,8 @@ exports.getUser = functions.https.onCall(async (data, context) => {
         const users = db.collection('users');
         const snapshot = await users.orderBy('records', 'desc').get();
         const userRef = users.doc(data.uid);
-        const user = (await userRef.get()).data();
+        const userSnap = await userRef.get();
+        const user = userSnap.data();
         user['rank'] = snapshot.docs.findIndex(doc => doc.id === user.id) + 1;
         delete user.records;
 
@@ -130,7 +132,8 @@ exports.getUser = functions.https.onCall(async (data, context) => {
 
         for (const id of user.mazes.reverse()) {
             const mazeRef = db.collection('mazes').doc(id);
-            const maze = (await mazeRef.get()).data();
+            const mazeSnap = await mazeRef.get();
+            const maze = mazeSnap.data();
 
             if (maze.created) {
                 const created = new Date(maze.created).toLocaleDateString();
@@ -151,7 +154,8 @@ exports.getUser = functions.https.onCall(async (data, context) => {
 
         for (const id of user.favorites.reverse()) {
             const mazeRef = db.collection('mazes').doc(id);
-            const maze = (await mazeRef.get()).data();
+            const mazeSnap = await mazeRef.get();
+            const maze = mazeSnap.data();
 
             if (maze.created) {
                 const created = new Date(maze.created).toLocaleDateString();
@@ -190,8 +194,8 @@ exports.getMazes = functions.https.onCall(async (_, context) => {
         const mazesRef = db.collection('mazes');
         const docs = [];
         const selected = new Set();
-
-        const popular = (await mazesRef.get()).docs.map(doc => doc.data());
+        const mazesSnap = await mazesRef.get();
+        const popular = mazesSnap.docs.map(doc => doc.data());
         popular.sort((a, b) => b.plays - a.plays);
 
         for (let i = 0; i < 3; i++) {
@@ -292,7 +296,8 @@ exports.createMaze = functions.https.onCall(async (data, context) => {
         }
 
         const collectionDataRef = db.collection('maze-collection').doc('data');
-        const collectionData = (await collectionDataRef.get()).data();
+        const collectionDataSnap = await collectionDataRef.get();
+        const collectionData = collectionDataSnap.data();
         const id = collectionData.size.toString().padStart(7, '0');
         const docRef = db.collection('mazes').doc(id);
         const maze = {
@@ -379,10 +384,14 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
         const secondRef = popular.doc('1');
         const thirdRef = popular.doc('2');
         const mazeRef = db.collection('mazes').doc(data.id);
-        const first = (await firstRef.get()).data();
-        const second = (await secondRef.get()).data();
-        const third = (await thirdRef.get()).data();
-        const maze = (await mazeRef.get()).data();
+        const firstSnap = await firstRef.get();
+        const first = firstSnap.data();
+        const secondSnap = await secondRef.get();
+        const second = secondSnap.data();
+        const thirdSnap = await thirdRef.get();
+        const third = thirdSnap.data();
+        const mazeSnap = await mazeRef.get();
+        const maze = mazeSnap.data();
         const plays = maze.plays + 1;
 
         if (plays >= first.plays) {
@@ -417,7 +426,8 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
         await mazeRef.update({ plays: admin.firestore.FieldValue.increment(1) });
 
         const userRef = db.collection('users').doc(data.uid);
-        const userPlays = (await userRef.get()).data().plays;
+        const userSnap = await userRef.get();
+        const userPlays = userSnap.data().plays;
 
         if (data.id in userPlays) {
             await userRef.update({ [`plays.${data.id}`]: admin.firestore.FieldValue.increment(-1) });
@@ -436,7 +446,8 @@ exports.resetPlays = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
         const user = db.collection('users').doc(data.uid);
-        const plays = (await user.get()).data().plays;
+        const userSnap = await user.get();
+        const plays = userSnap.data().plays;
         await user.set({ plays: { ...plays, [data.id]: 3 } }, { merge: true });
         return success;
     } catch (error) {
