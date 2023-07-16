@@ -2,14 +2,14 @@
 
 [<img src="appstore.png" height="50">](https://apps.apple.com/us/app/maze-factory/id6451072154)
 
-> View a demo video [here](https://youtu.be/95CQar_Gtes)!
-
 Cross-platform mobile application targetting iOS users written in React Native.
 Allows users to generate random mazes and share them for others to play and compete for record times.
 Hopefully, [these features](#todo) will be available in some time.
 
 Mazes are randomly generated with a runtime complexity of Ω(_n_)/O(_n_<sup>2</sup>) (where _n_ is the number of spaces in the maze)
 using an [original algorithm](src/models/maze.ts#L153) based on a bottom-up tree-building approach.
+
+View a demo video of an older development build [here](https://youtu.be/95CQar_Gtes)!
 
 ## Run your own development server
 
