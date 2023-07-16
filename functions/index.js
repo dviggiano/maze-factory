@@ -1,17 +1,41 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-const BadWordsFilter = require('bad-words');
+const { Configuration, OpenAIApi } = require('openai');
+require('dotenv').config()
 
 admin.initializeApp();
 
 const success = { message: 'Document written successfully.' };
 const db = admin.firestore();
-const filter = new BadWordsFilter();
+const auth = admin.auth();
+const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(configuration);
 
 function verify(context) {
     if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'Caller is unauthenticated.');
+        throw new functions.https.HttpsError('unauthenticated', 'Caller is not authenticated.');
     }
+}
+
+async function filter(name) {
+    const prompt = `The name "${name}" is a username or the name of a maze submitted to an maze sharing service. The user agreed to the following terms of use regarding maze name and username submission:
+
+a) Content must not violate any applicable laws, regulations, or third-party rights.
+b) Content must not contain defamatory, abusive, threatening, or harassing language.
+c) Content must not be hateful, discriminatory, or promote violence or illegal activities.
+d) Content must not include sexually explicit material.
+e) Content must not infringe upon intellectual property rights, including copyrights or trademarks.
+    
+Does the submitted name (${name}) violate the described terms of use? [yes/no]`;
+
+    const response = await openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: prompt,
+        max_tokens: 3,
+        temperature: 0.2
+    });
+
+    return response.data.choices[0].text.toLowerCase().includes('yes');
 }
 
 async function username(uid) {
@@ -53,21 +77,25 @@ exports.getMaze = functions.https.onCall(async (data, context) => {
 exports.beatRecord = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
-        const docRef = db.collection('mazes').doc(data.mazeId);
-        const oldUser = (await docRef.get()).data().recordHolder;
+        const maze = db.collection('mazes').doc(data.mazeId);
+        const oldUser = (await maze.get()).data().recordHolder;
 
         if (oldUser !== null) {
             const oldUserRef = db.collection('users').doc(oldUser);
-            await oldUserRef.update({ records: admin.firestore.FieldValue.increment(-1) });
+            const oldUserSnap = await oldUserRef.get();
+
+            if (oldUserSnap.exists) {
+                await oldUserRef.update({ records: admin.firestore.FieldValue.increment(-1) });
+            }
         }
 
-        await docRef.update({
+        await maze.update({
             recordTime: data.time,
             recordHolder: data.uid
         });
 
-        const oldUserRef = db.collection('users').doc(data.uid);
-        await oldUserRef.update({ records: admin.firestore.FieldValue.increment(1) });
+        const userRef = db.collection('users').doc(data.uid);
+        await userRef.update({ records: admin.firestore.FieldValue.increment(1) });
 
         return success;
     } catch (error) {
@@ -148,25 +176,17 @@ exports.getMazes = functions.https.onCall(async (_, context) => {
 
         const selectedMazeCount = Math.min(12, totalMazes);
         const mazesRef = db.collection('mazes');
-        const popularRef = db.collection('popular');
         const docs = [];
         const selected = new Set();
 
-        async function loadPopularMaze(id) {
-            const popularMaze = (await popularRef.doc(id).get()).data();
+        const popular = (await mazesRef.get()).docs.map(doc => doc.data());
+        popular.sort((a, b) => b.plays - a.plays);
 
-            if ('id' in popularMaze) {
-                const mazeId = popularMaze.id;
-                const mazeSnap = await mazesRef.doc(mazeId).get();
-                const maze = mazeSnap.data();
-                docs.push(maze);
-                selected.add(maze.id);
-            }
+        for (let i = 0; i < 3; i++) {
+            const maze = popular[i];
+            docs.push(maze);
+            selected.add(maze.id);
         }
-
-        await loadPopularMaze('0');
-        await loadPopularMaze('1');
-        await loadPopularMaze('2');
 
         while (selected.size < selectedMazeCount) {
             const index = Math.floor(Math.random() * totalMazes);
@@ -253,12 +273,10 @@ exports.createMaze = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
 
-        for (let i = 0; i < data.name.length; i++) {
-            for (let j = i; j <= data.name.length; j++) {
-                if (filter.isProfane(data.name.slice(i, j))) {
-                    return { error: 'Please do not use inappropriate language.' };
-                }
-            }
+        const violation = await filter(data.name);
+
+        if (violation) {
+            return { error: 'Maze name deemed to violate our terms of use.' };
         }
 
         const collectionDataRef = db.collection('maze-collection').doc('data');
@@ -293,14 +311,11 @@ exports.createUser = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
 
-        const username = data.email.slice(0, data.email.indexOf('@'));
+        const violation = await filter(data.email.slice(0, data.email.email.indexOf('@')));
 
-        for (let i = 0; i < username.length; i++) {
-            for (let j = i; j <= username.length; j++) {
-                if (filter.isProfane(username.slice(i, j))) {
-                    return { error: 'Please do not use an email address containing inappropriate language.' };
-                }
-            }
+        if (violation) {
+            await auth.deleteUser(data.uid);
+            return { error: 'Username deemed to violate our terms of use.' };
         }
 
         const docRef = db.collection('users').doc(data.uid);
@@ -348,9 +363,9 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
         const popular = db.collection('popular');
-        const firstRef = await popular.doc('0');
-        const secondRef = await popular.doc('1');
-        const thirdRef = await popular.doc('2');
+        const firstRef = popular.doc('0');
+        const secondRef = popular.doc('1');
+        const thirdRef = popular.doc('2');
         const mazeRef = db.collection('mazes').doc(data.id);
         const first = (await firstRef.get()).data();
         const second = (await secondRef.get()).data();
@@ -358,20 +373,29 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
         const maze = (await mazeRef.get()).data();
         const plays = maze.plays + 1;
 
-        if (plays > first.plays) {
+        if (plays >= first.plays) {
+            await thirdRef.set({
+                id: second.id,
+                plays: second.plays,
+            });
+            await secondRef.set({
+                id: first.id,
+                plays: first.plays,
+            });
             await firstRef.set({
                 id: maze.id,
                 plays: plays,
             });
-            await secondRef.set(first);
-            await thirdRef.set(second);
-        } else if (plays > second.plays) {
+        } else if (plays >= second.plays) {
+            await thirdRef.set({
+                id: second.id,
+                plays: second.plays,
+            });
             await secondRef.set({
                 id: maze.id,
                 plays: plays,
             });
-            await thirdRef.set(second);
-        } else if (plays > third.plays) {
+        } else if (plays >= third.plays) {
             await thirdRef.set({
                 id: maze.id,
                 plays: plays,
@@ -380,13 +404,15 @@ exports.registerPlay = functions.https.onCall(async (data, context) => {
 
         await mazeRef.update({ plays: admin.firestore.FieldValue.increment(1) });
 
-        const userRef = db.collection('users').doc(data.uid);
-        const userPlays = (await userRef.get()).data().plays;
+        if (data.uid !== 'VPw3us2ptqgecet7NsREGhYzIjX2') {
+            const userRef = db.collection('users').doc(data.uid);
+            const userPlays = (await userRef.get()).data().plays;
 
-        if (data.id in userPlays) {
-            await userRef.update({ [`plays.${data.id}`]: admin.firestore.FieldValue.increment(-1) });
-        } else {
-            await userRef.set({ plays: { ...userPlays, [data.id]: 2 } }, { merge: true });
+            if (data.id in userPlays) {
+                await userRef.update({ [`plays.${data.id}`]: admin.firestore.FieldValue.increment(-1) });
+            } else {
+                await userRef.set({ plays: { ...userPlays, [data.id]: 2 } }, { merge: true });
+            }
         }
 
         return success;
@@ -414,7 +440,7 @@ exports.deleteAccount = functions.https.onCall(async (_, context) => {
         verify(context);
         const uid = context.auth.uid;
         await db.collection('users').doc(uid).delete();
-        await admin.auth().deleteUser(uid);
+        await auth.deleteUser(uid);
         return success;
     } catch (error) {
         console.error(error);
