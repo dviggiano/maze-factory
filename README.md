@@ -126,7 +126,7 @@ Download the [Expo Go iOS app](https://apps.apple.com/us/app/expo-go/id982107779
 
 * Prompt users to rate the app
 * Replace native alerts with custom modals that match the rest of the app
-* Allow users to share mazes
+* Allow users to share mazes via text, etc.
 * Deliver a push notification when someone sets a record on your maze or beats your record
 * Add accessibility features including dictation
 * Improve UI during loading (blur text...etc.)
