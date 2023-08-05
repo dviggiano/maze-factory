@@ -328,7 +328,7 @@ exports.createUser = functions.https.onCall(async (data, context) => {
     try {
         verify(context);
 
-        const violation = await filter(data.email.slice(0, data.email.email.indexOf('@')));
+        const violation = await filter(data.email.slice(0, data.email.indexOf('@')));
 
         if (violation) {
             await auth.deleteUser(data.uid);
