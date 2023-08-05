@@ -8,14 +8,12 @@ admin.initializeApp();
 const success = { message: 'Document written successfully.' };
 const db = admin.firestore();
 const auth = admin.auth();
-
 /*
  * To add additional filtering to ensure user-generated content complies with terms of use,
  * generate an Open AI API key (see https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/).
  * Then, create a .env file in this directory with the following contents:
  * OPENAI_API_KEY=your-api-key
  */
-
 const configuration = process.env.OPENAI_API_KEY ? new Configuration({ apiKey: process.env.OPENAI_API_KEY }) : null;
 const openai = configuration ? new OpenAIApi(configuration) : null;
 
