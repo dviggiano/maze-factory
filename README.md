@@ -143,6 +143,7 @@ Download the [Expo Go iOS app](https://apps.apple.com/us/app/expo-go/id982107779
 * Universally utilize type-checking
 * Ensure uniform styling
 * Extract reused components
+* Extract some operations to service classes
 * Complete documentation
 * Implement test suite
 
