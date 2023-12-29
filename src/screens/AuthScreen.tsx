@@ -71,7 +71,7 @@ export default function AuthScreen({ navigation }): JSX.Element {
                     </View>
                 </View>
             </Modal>
-        )
+        );
     }
 
     async function signIn(uid: string) {
